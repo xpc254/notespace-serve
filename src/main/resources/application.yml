@@ -6,12 +6,8 @@ server:
 spring:
   application:
     name: notespace-serve
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/notespace?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-    username: root
-    password: root123456
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -24,7 +20,6 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
@@ -34,7 +29,7 @@ mybatis-plus:
 
 # JWT 配置
 jwt:
-  secret: notespace-secret-key-2024-very-long-and-secure-key-for-jwt-token-generation
+  secret: ${JWT_SECRET:notespace-secret-key-2024-very-long-and-secure-key-for-jwt-token-generation}
   access-expiration: 7200000     # 2小时，单位：毫秒
   refresh-expiration: 604800000  # 7天，单位：毫秒
   header: Authorization
@@ -43,7 +38,6 @@ jwt:
 # 日志配置
 logging:
   level:
-    com.notespace: debug
-    com.notespace.mapper: debug
+    com.notespace: ${LOG_LEVEL:info}
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
